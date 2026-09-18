@@ -14,4 +14,4 @@ export function isFacebookHost(hostname: string): boolean {
 }
 
 export const FACEBOOK_LIMITED_MESSAGE =
-  "Limited monitoring — Owlert may not be able to reliably read recent Facebook posts.";
+  "Limited monitoring — BeeAlert may not be able to reliably read recent Facebook posts.";

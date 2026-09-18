@@ -221,7 +221,7 @@ export async function checkSource(rawUrl: string): Promise<CheckSourceResult> {
       resolvedUrl: url.toString(),
       update: null,
       errorMessage:
-        "This source returns a format Owlert can't monitor (not a webpage or feed).",
+        "This source returns a format BeeAlert can't monitor (not a webpage or feed).",
     });
   }
 
@@ -318,7 +318,7 @@ export async function checkSource(rawUrl: string): Promise<CheckSourceResult> {
 
 function logResult(result: CheckSourceResult): CheckSourceResult {
   console.log(
-    `[owlert] source check: ${result.resolvedUrl} -> adapter=${result.adapterUsed ?? "none"} status=${result.status}`,
+    `[beealert] source check: ${result.resolvedUrl} -> adapter=${result.adapterUsed ?? "none"} status=${result.status}`,
   );
   return result;
 }

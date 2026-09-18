@@ -8,7 +8,7 @@ const HISTORICAL_MAX_MS = 7 * 24 * 60 * 60 * 1000; // 7 days — the default his
 
 /**
  * Display-facing freshness tier for an update, based on its real publish
- * time when known (falls back to when Owlert detected it). This is always
+ * time when known (falls back to when BeeAlert detected it). This is always
  * computed at read time, never stored — freshness is relative to "now" and
  * would go stale immediately if persisted as a static value.
  */

@@ -46,7 +46,7 @@ function describeNoNewUpdates(result: CheckSourceResult): string {
     // Facebook-specific message) over the generic fallback.
     return (
       result.errorMessage ??
-      "Limited monitoring — Owlert could not reliably read recent posts from this source."
+      "Limited monitoring — BeeAlert could not reliably read recent posts from this source."
     );
   }
   return "No new relevant updates.";

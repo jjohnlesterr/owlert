@@ -5,8 +5,8 @@ import type { WeatherFetchResult } from "@/lib/types";
 
 // Open-Meteo: free, no API key required (fair-use limit is far beyond a
 // hackathon demo's needs). Chosen over key-based providers specifically to
-// avoid an extra .env.local variable and signup step — see PLAN.md /
-// SKILLS.md for the "simplest reliable option" priority.
+// avoid an extra .env.local variable and signup step — see docs/PLAN.md /
+// docs/SKILLS.md for the "simplest reliable option" priority.
 const GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search";
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
 

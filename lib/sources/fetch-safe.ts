@@ -36,7 +36,7 @@ export async function fetchTextSafe(
   const res = await fetch(url, {
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     headers: {
-      "User-Agent": "OwlertBot/0.1 (+weather source monitor; hackathon MVP)",
+      "User-Agent": "BeeAlertBot/0.1 (+weather source monitor; hackathon MVP)",
     },
   });
 
