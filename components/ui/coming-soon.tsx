@@ -10,8 +10,8 @@ export function ComingSoon({
   return (
     <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-16 text-center">
       <Image
-        src="/mascot/owlert-default.png"
-        alt="Owlert mascot"
+        src="/mascot/beealert-default.png"
+        alt="BeeAlert mascot"
         width={96}
         height={96}
         className="h-24 w-24"

@@ -1,24 +1,21 @@
-import { Bell } from "lucide-react";
+import { Bell, ListChecks } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { AdvisoryCard } from "@/components/dashboard/advisory-card";
-import { SourceCard } from "@/components/dashboard/source-card";
 import { StatusCard } from "@/components/dashboard/status-card";
 import { UpdateCard } from "@/components/dashboard/update-card";
+import { UpdateListItem } from "@/components/dashboard/update-list-item";
 import { WeatherSection } from "@/components/dashboard/weather-section";
 import { WeatherCardSkeleton } from "@/components/dashboard/weather-card";
 import { Card } from "@/components/ui/card";
 import { getAuthUser } from "@/lib/dal";
 import { getClassStatus } from "@/lib/class-status";
 import { createClient } from "@/lib/supabase/server";
-import { mockAdvisory } from "@/lib/mock-data";
 import { toUpdateItem, type SourceUpdateWithSource } from "@/lib/sources/to-update-item";
 import { resolveRowRegions } from "@/lib/sources/resolve-region";
 import { historyWindowStart } from "@/lib/updates/window";
 import type { PhRegionCode } from "@/lib/ph-regions";
-import type { MonitoredSource, SourceRow } from "@/lib/types";
 
 const LATEST_UPDATES_LIMIT = 5;
 const HISTORY_WINDOW_DAYS = 7;
@@ -42,7 +39,9 @@ export default async function HomePage() {
     }>();
 
   const displayName =
-    profile?.full_name?.trim() || user.email?.split("@")[0] || "there";
+    profile?.full_name?.trim().split(" ")[0] ||
+    user.email?.split("@")[0] ||
+    "there";
   const locationLabel = profile?.city?.trim() || "your area";
 
   // Dashboard Latest Updates always respects the user's saved region
@@ -61,18 +60,10 @@ export default async function HomePage() {
     .order("detected_at", { ascending: false })
     .limit(50);
 
-  const [classStatus, { data: latestUpdateRows }, { data: latestSourceRows }] =
-    await Promise.all([
-      getClassStatus(user.id, locationLabel),
-      latestUpdatesQuery.returns<SourceUpdateWithSource[]>(),
-      supabase
-        .from("sources")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(3)
-        .returns<SourceRow[]>(),
-    ]);
+  const [classStatus, { data: latestUpdateRows }] = await Promise.all([
+    getClassStatus(user.id, locationLabel),
+    latestUpdatesQuery.returns<SourceUpdateWithSource[]>(),
+  ]);
 
   const preferredRegion = profile?.preferred_region ?? null;
   const filteredUpdateRows = preferredRegion
@@ -84,35 +75,46 @@ export default async function HomePage() {
   const latestUpdates = filteredUpdateRows
     .slice(0, LATEST_UPDATES_LIMIT)
     .map(toUpdateItem);
-  const sourcesPreview: MonitoredSource[] = (latestSourceRows ?? []).map(
-    (row) => ({
-      id: row.id,
-      name: row.name,
-      kind: "custom",
-      status: row.status,
-      monitoringEnabled: true,
-      notificationsEnabled: true,
-      lastCheckedAt: row.last_checked_at,
-    }),
-  );
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-teal-600">
-        {/* Subtle brand glow accents — no hard image edges, just soft color */}
+    <div className="flex flex-col gap-3 sm:gap-4">
+      {/* Full-bleed on mobile — bleeds past <main>'s px-4/-mt-2 so the hero
+          starts flush at the very top with only large bottom corners; reverts
+          to a normal inset rounded card once <main>'s own padding kicks in
+          at sm+. The logoname+bell row here replaces the generic app header
+          for this page only (see components/nav/app-shell.tsx). */}
+      <div className="relative -mx-4 -mt-2 overflow-hidden rounded-b-3xl bg-gradient-to-br from-navy via-navy to-navy-deep sm:mx-0 sm:mt-0 sm:rounded-3xl">
+        {/* One restrained accent glow — bee yellow, not blue-on-blue */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-teal-300/25 blur-3xl"
+          className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-[var(--color-bee-yellow)]/10 blur-3xl"
         />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-12 left-4 h-36 w-36 rounded-full bg-blue-300/20 blur-3xl"
-        />
+
+        {/* Mobile-only top row: replaces the generic header for Home so the
+            hero itself is the top of the page. Desktop keeps its sidebar
+            branding and just gets the standalone bell below. */}
+        <div className="flex items-center justify-between px-5 pt-6 md:hidden">
+          <Image
+            src="/mascot/beealert-logoname-trimmed.png"
+            alt="BeeAlert"
+            width={150}
+            height={40}
+            priority
+            className="h-7 w-auto object-contain"
+          />
+          <button
+            type="button"
+            aria-label="Notifications"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Bell className="h-[18px] w-[18px]" />
+          </button>
+        </div>
 
         <button
           type="button"
           aria-label="Notifications"
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25 sm:right-5 sm:top-5"
+          className="absolute right-5 top-5 z-10 hidden h-9 w-9 items-center justify-center rounded-full bg-white text-navy shadow-sm transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:flex"
         >
           <Bell className="h-4 w-4" />
         </button>
@@ -121,49 +123,49 @@ export default async function HomePage() {
             breakpoint so the corner-anchored mascot never sits over it —
             no stack-then-switch-to-row, the composition is the same shape
             from mobile up, just smaller. */}
-        <div className="relative px-5 py-6 pr-28 sm:px-8 sm:py-9 sm:pr-44 md:px-10 md:py-11 md:pr-52">
-          <p className="text-sm font-medium text-blue-100">
+        <div className="relative px-5 pb-9 pt-5 pr-32 sm:px-7 sm:py-8 sm:pr-40 md:px-9 md:py-9 md:pr-48">
+          <p className="text-xs font-medium text-slate-300 sm:text-sm">
             Welcome back, {displayName}
           </p>
-          <h1 className="mt-1 text-xl font-semibold text-white sm:text-2xl md:text-3xl">
-            Here&apos;s today&apos;s weather &amp; class update
+          <h1 className="mt-1.5 text-2xl font-semibold text-white">
+            Weather &amp; class updates
           </h1>
-          <p className="mt-2 text-sm text-blue-50/90 sm:max-w-sm sm:text-base">
-            Trusted weather advisories and school/class alerts from the
-            sources you monitor — all in one place.
+          <p className="mt-2 text-xs text-slate-300 sm:text-sm">
+            Verified local alerts at a glance.
           </p>
         </div>
 
         {/* Mascot peeks in from the bottom-right corner. A radial mask
             fades out its own flat background near the top-left of the
             image so it blends into the gradient instead of showing as a
-            dark box — the owl itself sits inside the visible portion. */}
+            dark box — the bee itself sits inside the visible portion. */}
         <div
-          className="pointer-events-none absolute bottom-0 right-1 h-28 w-24 sm:h-40 sm:w-36 md:h-48 md:w-44 [mask-image:radial-gradient(circle_at_bottom_right,black_58%,transparent_98%)] [-webkit-mask-image:radial-gradient(circle_at_bottom_right,black_58%,transparent_98%)]"
+          className="pointer-events-none absolute bottom-0 right-1 h-36 w-36 sm:h-40 sm:w-40 md:h-44 md:w-44 [mask-image:radial-gradient(circle_at_bottom_right,black_58%,transparent_98%)] [-webkit-mask-image:radial-gradient(circle_at_bottom_right,black_58%,transparent_98%)]"
         >
           <Image
-            src="/mascot/owlert-default.png"
-            alt="Owlert the owl mascot"
+            src="/mascot/beealert-banner.png"
+            alt="BeeAlert the bee mascot"
             fill
-            sizes="(min-width: 768px) 176px, (min-width: 640px) 144px, 96px"
+            sizes="(min-width: 768px) 176px, (min-width: 640px) 144px, 128px"
             className="object-contain object-bottom"
             priority
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
         <StatusCard status={classStatus} />
         <Suspense fallback={<WeatherCardSkeleton />}>
           <WeatherSection city={profile?.city ?? null} province={profile?.province ?? null} />
         </Suspense>
       </div>
 
-      <AdvisoryCard advisory={mockAdvisory} />
-
       <section>
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-navy">Latest Updates</h2>
+        <div className="mb-2.5 flex items-center justify-between">
+          <h2 className="flex items-center gap-1.5 text-base font-semibold text-navy">
+            <ListChecks className="h-4 w-4 text-slate-400" />
+            Latest Updates
+          </h2>
           <Link
             href="/updates"
             className="text-sm font-medium text-blue-600 hover:underline"
@@ -172,11 +174,18 @@ export default async function HomePage() {
           </Link>
         </div>
         {latestUpdates.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {latestUpdates.map((update) => (
-              <UpdateCard key={update.id} update={update} />
-            ))}
-          </div>
+          <>
+            <div className="flex flex-col gap-2.5 md:hidden">
+              {latestUpdates.map((update) => (
+                <UpdateListItem key={update.id} update={update} />
+              ))}
+            </div>
+            <div className="hidden md:grid md:grid-cols-2 md:gap-4">
+              {latestUpdates.map((update) => (
+                <UpdateCard key={update.id} update={update} />
+              ))}
+            </div>
+          </>
         ) : (
           <Card>
             <p className="text-sm text-slate-500">
@@ -197,36 +206,6 @@ export default async function HomePage() {
                   and check it for weather-related updates.
                 </>
               )}
-            </p>
-          </Card>
-        )}
-      </section>
-
-      <section>
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-navy">
-            Monitored Sources
-          </h2>
-          <Link
-            href="/sources"
-            className="text-sm font-medium text-blue-600 hover:underline"
-          >
-            View Sources
-          </Link>
-        </div>
-        {sourcesPreview.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {sourcesPreview.map((source) => (
-              <SourceCard key={source.id} source={source} compact />
-            ))}
-          </div>
-        ) : (
-          <Card>
-            <p className="text-sm text-slate-500">
-              You haven&apos;t added any sources yet.{" "}
-              <Link href="/sources" className="font-medium text-blue-600 hover:underline">
-                Add a Source
-              </Link>
             </p>
           </Card>
         )}

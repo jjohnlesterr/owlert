@@ -48,8 +48,8 @@ export function SourceListCard({ source }: { source: SourceRow }) {
       {source.status === "limited" && (
         <p className="mt-2 flex items-start gap-1.5 rounded-lg bg-amber-50 px-2.5 py-2 text-xs text-amber-800">
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          Limited monitoring — Owlert may not be able to reliably read recent
-          posts from this source.
+          Limited monitoring — BeeAlert may not be able to reliably read
+          recent posts from this source.
         </p>
       )}
       {source.trust_level === "unverified" && (

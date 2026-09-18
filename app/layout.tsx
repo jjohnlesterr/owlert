@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Owlert",
+  title: "BeeAlert",
   description:
-    "Owlert helps you track weather updates, advisories, and class suspension announcements from trusted sources.",
+    "BeeAlert helps you track weather updates, advisories, and class suspension announcements from trusted sources.",
   icons: {
-    icon: "/mascot/owlert-logo.png",
-    shortcut: "/mascot/owlert-logo.png",
+    icon: "/mascot/beealert-logo.png",
+    shortcut: "/mascot/beealert-logo.png",
     apple: "/icon-192x192.png",
   },
   manifest: "/manifest.webmanifest",

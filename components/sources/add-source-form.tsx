@@ -10,7 +10,7 @@ export function AddSourceForm() {
   return (
     <form
       action={formAction}
-      className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm shadow-slate-200/50 sm:p-5"
+      className="flex flex-col gap-3 rounded-xl border border-slate-200/80 bg-white p-4 shadow-[0_1px_2px_rgba(15,27,51,0.04)] sm:p-5"
     >
       <div className="flex flex-col gap-2 sm:flex-row">
         <input
@@ -23,7 +23,7 @@ export function AddSourceForm() {
         <button
           type="submit"
           disabled={pending}
-          className="shrink-0 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="shrink-0 rounded-lg bg-navy px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-60"
         >
           {pending ? "Checking…" : "Add Source"}
         </button>

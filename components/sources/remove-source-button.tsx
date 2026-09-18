@@ -57,7 +57,7 @@ export function RemoveSourceButton({
             <span className="font-medium text-navy">
               &ldquo;{sourceName}&rdquo;
             </span>
-            ? Owlert will stop monitoring it, and saved detections from this
+            ? BeeAlert will stop monitoring it, and saved detections from this
             source will also be removed.
           </>
         }

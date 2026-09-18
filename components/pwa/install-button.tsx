@@ -47,7 +47,7 @@ export function InstallButton() {
       onClick={handleInstall}
       className="rounded-full bg-[#0f1b33] px-4 py-2 text-sm font-medium text-white hover:bg-[#0f1b33]/90"
     >
-      Install Owlert
+      Install BeeAlert
     </button>
   );
 }

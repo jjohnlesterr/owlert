@@ -22,11 +22,11 @@ export default async function ProfilePage() {
     <div className="flex flex-col gap-6">
       <header className="flex items-center gap-3">
         <Image
-          src="/mascot/owlert-default.png"
-          alt="Owlert mascot"
+          src="/mascot/beealert-logo.png"
+          alt="BeeAlert"
           width={56}
           height={56}
-          className="h-14 w-14"
+          className="h-14 w-14 rounded-xl"
         />
         <div>
           <h1 className="text-xl font-semibold text-navy">Profile</h1>

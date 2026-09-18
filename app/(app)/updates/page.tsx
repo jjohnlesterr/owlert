@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { UpdateCard } from "@/components/dashboard/update-card";
@@ -21,7 +22,7 @@ const FILTERS: { label: string; value: UpdateType | "all" }[] = [
 const VALID_TYPES: UpdateType[] = ["weather", "classes", "school"];
 
 // "Recent history" window per the spec — newest first, up to 7 days back.
-// Fetched on detected_at (Owlert's own reliable timestamp, always present)
+// Fetched on detected_at (BeeAlert's own reliable timestamp, always present)
 // rather than published_at (best-effort, sometimes null).
 const HISTORY_WINDOW_DAYS = 7;
 
@@ -92,12 +93,11 @@ export default async function UpdatesPage({
   const updates = filteredRows.map(toUpdateItem);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <header>
         <h1 className="text-xl font-semibold text-navy">Updates</h1>
         <p className="text-sm text-slate-500">
-          Weather-related updates detected from your monitored sources over
-          the last {HISTORY_WINDOW_DAYS} days.
+          From your monitored sources, last {HISTORY_WINDOW_DAYS} days.
         </p>
       </header>
 
@@ -135,8 +135,15 @@ export default async function UpdatesPage({
           ))}
         </div>
       ) : (
-        <Card>
-          <p className="text-sm text-slate-500">
+        <Card className="flex flex-col items-center gap-2.5 py-8 text-center">
+          <Image
+            src="/mascot/beealert-default.png"
+            alt="BeeAlert mascot"
+            width={64}
+            height={64}
+            className="h-16 w-16 opacity-90"
+          />
+          <p className="max-w-sm text-sm text-slate-500">
             {activeFilter === "all" && !activeRegion ? (
               <>
                 No updates detected yet.{" "}

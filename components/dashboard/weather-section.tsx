@@ -6,25 +6,24 @@ import { getWeatherForLocation } from "@/lib/weather/open-meteo";
 
 function MissingLocationCard() {
   return (
-    <Card>
-      <div className="flex items-start gap-3">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500">
-          <MapPin className="h-6 w-6" />
+    <Card compact>
+      <div className="flex items-start gap-2.5 sm:gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 sm:h-11 sm:w-11">
+          <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
         </span>
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+        <div className="min-w-0">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400 sm:text-xs">
             Weather
           </p>
           <h3 className="mt-0.5 text-sm font-semibold text-navy">
-            Add your location to see local weather
+            Add your location for local weather
           </h3>
-          <p className="mt-1 text-sm text-slate-600">
-            Set your city and province in your profile and we&apos;ll show
-            weather for your area.
+          <p className="mt-1 line-clamp-2 text-xs text-slate-600 sm:text-sm">
+            Set your city and province in your profile.
           </p>
           <Link
             href="/profile"
-            className="mt-2 inline-block text-sm font-medium text-blue-600 hover:underline"
+            className="mt-1.5 inline-block text-xs font-medium text-blue-600 hover:underline sm:text-sm"
           >
             Go to Profile
           </Link>
@@ -36,19 +35,21 @@ function MissingLocationCard() {
 
 function WeatherErrorCard({ message }: { message: string }) {
   return (
-    <Card>
-      <div className="flex items-start gap-3">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500">
-          <CloudOff className="h-6 w-6" />
+    <Card compact>
+      <div className="flex items-start gap-2.5 sm:gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 sm:h-11 sm:w-11">
+          <CloudOff className="h-5 w-5 sm:h-6 sm:w-6" />
         </span>
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+        <div className="min-w-0">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400 sm:text-xs">
             Weather
           </p>
           <h3 className="mt-0.5 text-sm font-semibold text-navy">
-            Weather unavailable right now
+            Weather unavailable
           </h3>
-          <p className="mt-1 text-sm text-slate-600">{message}</p>
+          <p className="mt-1 line-clamp-2 text-xs text-slate-600 sm:text-sm">
+            {message}
+          </p>
         </div>
       </div>
     </Card>

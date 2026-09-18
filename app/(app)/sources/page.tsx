@@ -41,12 +41,11 @@ export default async function SourcesPage() {
   const customSources = (sources ?? []).filter((s) => !s.is_builtin);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <header>
         <h1 className="text-xl font-semibold text-navy">Sources</h1>
         <p className="text-sm text-slate-500">
-          Owlert-managed trusted sources plus any websites or feeds you add
-          yourself, all checked for weather-related updates.
+          Trusted sources BeeAlert manages, plus any you add yourself.
         </p>
       </header>
 

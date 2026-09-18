@@ -11,27 +11,32 @@ export function AuthCard({
   children: ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-full flex-1 items-center justify-center overflow-hidden bg-background px-4 py-12">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-blue-100/70 via-blue-50/30 to-transparent"
-      />
-
-      <div className="relative w-full max-w-md rounded-3xl border border-slate-100 bg-white p-7 shadow-lg shadow-slate-200/60 sm:p-9">
-        <div className="flex flex-col items-center text-center">
+    <div className="flex min-h-full flex-1 items-center justify-center bg-background px-4 py-10 sm:py-12">
+      <div className="w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,27,51,0.04)] md:grid md:grid-cols-2">
+        <div className="relative flex flex-col items-center justify-center gap-3 overflow-hidden bg-navy px-6 py-8 text-center sm:py-10 md:gap-4 md:px-10 md:py-12">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-10 -top-14 h-48 w-48 rounded-full bg-[var(--color-bee-yellow)]/10 blur-3xl"
+          />
           <Image
-            src="/mascot/owlert-default.png"
-            alt="Owlert mascot"
-            width={88}
-            height={88}
-            className="h-20 w-20"
+            src="/mascot/beealert-banner.png"
+            alt="BeeAlert mascot"
+            width={220}
+            height={207}
+            className="relative h-24 w-auto sm:h-28 md:h-36"
             priority
           />
-          <h1 className="mt-4 text-2xl font-semibold text-navy">{title}</h1>
-          <p className="mt-1.5 max-w-xs text-sm text-slate-500">{subtitle}</p>
+          <div className="relative">
+            <h1 className="text-xl font-semibold text-white sm:text-2xl">
+              {title}
+            </h1>
+            <p className="mt-1.5 max-w-xs text-sm text-slate-300">
+              {subtitle}
+            </p>
+          </div>
         </div>
 
-        <div className="mt-8">{children}</div>
+        <div className="px-6 py-7 sm:px-9 sm:py-9">{children}</div>
       </div>
     </div>
   );

@@ -1,15 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f8fb;
+  --background: #f7f7f4;
   --foreground: #0f1b33;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  /* BeeAlert brand tokens. Navy is the dominant brand color (sidebar, hero,
+     headings); bee yellow is a controlled accent (active indicators,
+     warnings) — never a large fill. Functional blue stays Tailwind's
+     blue-600 used inline, reserved for links/info states/weather emphasis,
+     not surfaces. Status colors reuse Tailwind's green/amber/red/blue scale
+     directly in components rather than redeclaring them here. */
   --color-navy: #0f1b33;
   --color-navy-deep: #0a1226;
+  --color-navy-light: #1e2c4d;
+  --color-bee-yellow: #f0b429;
+  --color-surface: #ffffff;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

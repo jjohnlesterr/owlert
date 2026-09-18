@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Owlert",
-    short_name: "Owlert",
+    name: "BeeAlert",
+    short_name: "BeeAlert",
     description:
-      "Owlert helps you track weather updates, advisories, and class suspension announcements from trusted sources.",
+      "BeeAlert helps you track weather updates, advisories, and class suspension announcements from trusted sources.",
     start_url: "/",
     scope: "/",
     display: "standalone",
