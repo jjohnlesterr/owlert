@@ -1,8 +1,8 @@
-# SKILLS.md — Owlert Dev Reference
+# SKILLS.md — BeeAlert Dev Reference
 
-This file maps the Claude Code skills already available in this environment to the work Owlert actually needs, so agents (and humans) reach for the right tool instead of re-deriving a process every session. It does not duplicate `AGENTS.md`/`CLAUDE.md` — read those first, they take precedence.
+This file maps the Claude Code skills already available in this environment to the work BeeAlert actually needs, so agents (and humans) reach for the right tool instead of re-deriving a process every session. It does not duplicate `AGENTS.md`/`CLAUDE.md` — read those first, they take precedence.
 
-There is currently no project-local `.claude/skills/` directory. All skills referenced below are global Claude Code skills. **Do not delete or overwrite them** — if project-specific skills are added later (e.g. an `owlert-monitor` skill for the fetch pipeline), keep this file in sync but never remove existing entries without checking with the user first.
+There is currently no project-local `.claude/skills/` directory. All skills referenced below are global Claude Code skills. **Do not delete or overwrite them** — if project-specific skills are added later (e.g. a `beealert-monitor` skill for the fetch pipeline), keep this file in sync but never remove existing entries without checking with the user first.
 
 ## Framework ground rules (read before writing code)
 
@@ -30,10 +30,9 @@ There is currently no project-local `.claude/skills/` directory. All skills refe
 2. **Server-side only for source fetching.** All fetching of external URLs (built-in or custom) happens in Route Handlers/Edge Functions using the service role key — never expose fetch logic or the service role key to client components.
 3. **RLS first, UI second.** When adding a new Supabase table, write and test its RLS policy in the same change that creates the table — don't defer it to a "security pass" later.
 4. **Mobile-first only.** Build and screenshot at ~375px width before widening; do not design desktop-first and retrofit.
-5. **Mascot usage is fixed:** `owlert-default` for branding/onboarding/empty states, `owlert-banner` for the dashboard hero only. Don't introduce new mascot poses without asset support.
+5. **Mascot usage is fixed:** `beealert-logo` for compact/icon-only UI, `beealert-logoname` for sidebar/header branding, `beealert-banner` (half-body) for auth screens and the dashboard hero only, `beealert-default` (full-body) for empty/onboarding states. Don't introduce new mascot poses without asset support.
 
 ## Known gaps to fill during setup (Phase 0)
 
-- `public/` currently only has the default `create-next-app` SVGs — `owlert-default` and `owlert-banner` image assets need to be added before Dashboard/Profile UI work starts.
-- No `.env.local` / Supabase project exists yet — see `PLAN.md` Phase 1.
-- No PWA manifest or service worker yet — see `PLAN.md` Phase 6.
+- No `.env.local` / Supabase project exists yet — see `docs/PLAN.md` Phase 1.
+- No PWA manifest or service worker yet — see `docs/PLAN.md` Phase 6.
