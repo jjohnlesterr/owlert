@@ -1,4 +1,4 @@
-const CACHE_NAME = "owlert-shell-v1";
+const CACHE_NAME = "beealert-shell-v2";
 const SHELL_URLS = ["/", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
