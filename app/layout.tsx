@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { RegisterServiceWorker } from "@/components/pwa/register-service-worker";
+import { InstallButton } from "@/components/pwa/install-button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +21,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/mascot/owlert-logo.png",
     shortcut: "/mascot/owlert-logo.png",
-    apple: "/mascot/owlert-logo.png",
+    apple: "/icon-192x192.png",
   },
+  manifest: "/manifest.webmanifest",
 };
 
 export const viewport: Viewport = {
@@ -35,7 +38,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <RegisterServiceWorker />
+        {children}
+        <div className="fixed bottom-20 right-4 z-50 md:bottom-4">
+          <InstallButton />
+        </div>
+      </body>
     </html>
   );
 }
